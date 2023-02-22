@@ -16,7 +16,7 @@ const runPsarBollinger = async () => {
 	const testCollection = db.collection("tests")
 	const test = await testCollection.findOne({
 		completed: false,
-		// interval: 60,
+		interval: 60,
 	})
 	if (!test) {
 		await client.close()
@@ -144,7 +144,8 @@ const runPsarBollinger = async () => {
 		sells,
 		losing,
 		usdt,
-		token
+		token,
+		test
 	)
 	await client.close()
 }
@@ -173,7 +174,8 @@ async function writeResults(
 	sells,
 	losing,
 	usdt_balance,
-	token_balance
+	token_balance,
+	testSettings
 ) {
 	const resultsCollection = db.collection("results")
 	await resultsCollection.insertOne({
@@ -188,6 +190,7 @@ async function writeResults(
 		win_rate: new Double((((buys - losing) / buys) * 100).toFixed(2)),
 		lose_rate: new Double(((losing / buys) * 100).toFixed(2)),
 		profit: new Double((usdt_balance - 100).toFixed(2)),
+		testSettings,
 	})
 
 	console.log("Stored results")
