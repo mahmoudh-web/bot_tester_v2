@@ -54,14 +54,7 @@ const runPsarBollinger = async () => {
 		})
 		.sort({ startTime: 1 })
 
-	let x = 1
 	await candleData.forEach(candle => {
-		console.log(
-			`Retrieved candle ${x.toLocaleString(
-				"en-GB"
-			)} of ${count.toLocaleString("en-GB")}`
-		)
-		x++
 		candles.push({
 			start: candle.startTime,
 			open: candle.open,
@@ -110,26 +103,20 @@ const runPsarBollinger = async () => {
 		if (openTrade) {
 			const sellSignal = sell(candle)
 			if (sellSignal) {
-				console.log(
-					`SELL: ${candle.startISO}, Price: ${
-						candle.open
-					}, Profit: ${sellAmount(candle.open, token).toFixed(2)}`
-				)
 				usdt += sellAmount(candle.open, token)
 				if (sellAmount(candle.open, token) <= 10) losing++
 				token = 0
 				sells++
-				printBalance(usdt, token)
+				// printBalance(usdt, token)
 				openTrade = false
 			}
 		} else {
 			const buySignal = buy(candle)
 			if (buySignal) {
-				console.log(`BUY: ${candle.startISO}, Price: ${candle.open}`)
 				usdt -= 10
 				token += buyAmount(candle.open, 10)
 				buys++
-				printBalance(usdt, token)
+				// printBalance(usdt, token)
 				openTrade = true
 			}
 		}
