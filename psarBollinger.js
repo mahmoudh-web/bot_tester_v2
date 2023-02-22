@@ -30,14 +30,15 @@ const runPsarBollinger = async () => {
 		{ _id: test._id },
 		{ $set: { completed: true } }
 	)
-	// get candles
 
+	// get candles
 	const candlesCollection = db.collection(
 		test.interval === 60 ? "kline_1hs" : `kline_${test.interval}ms`
 	)
 
 	const count = await candlesCollection.countDocuments({
 		symbol: test.symbol,
+		startTimeISO: { $gte: new Date("Sat, 01 Jan 2022 00:00:00 GMT") },
 	})
 
 	if (count === 0) {
@@ -47,7 +48,10 @@ const runPsarBollinger = async () => {
 
 	const candles = []
 	const candleData = candlesCollection
-		.find({ symbol: test.symbol })
+		.find({
+			symbol: test.symbol,
+			startTimeISO: { $gte: new Date("Sat, 01 Jan 2022 00:00:00 GMT") },
+		})
 		.sort({ startTime: 1 })
 
 	let x = 1
