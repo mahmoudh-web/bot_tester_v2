@@ -16,7 +16,7 @@ const runPsarBollinger = async () => {
 	const testCollection = db.collection("tests")
 	const test = await testCollection.findOne({
 		completed: false,
-		interval: 60,
+		// interval: 60,
 	})
 	if (!test) {
 		await client.close()
