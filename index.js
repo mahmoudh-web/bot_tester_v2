@@ -10,6 +10,8 @@ dotenv.config()
 import { createTests } from "./createTests.js"
 import { runPsarBollinger } from "./psarBollinger.js"
 
+const helper = process.env.HELPER
+
 let processing = false
 
 const runTest = async () => {
