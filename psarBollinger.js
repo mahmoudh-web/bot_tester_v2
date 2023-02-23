@@ -138,9 +138,7 @@ const runPsarBollinger = async () => {
 }
 
 function buy(candle) {
-	if (candle.open < candle.bollinger_lower && candle.psar < candle.low)
-		return true
-	return false
+	return candle.open < candle.bollinger_lower && candle.psar < candle.low
 }
 
 function sell(candle) {
