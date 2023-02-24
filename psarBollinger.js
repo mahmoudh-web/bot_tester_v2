@@ -13,13 +13,13 @@ const runPsarBollinger = async () => {
 	await client.connect()
 
 	// get test to run
-	const testCollection = db.collection("tests")
+	const testCollection = db.collection("test_short")
 	const test = await testCollection.findOne({
 		completed: false,
 		// interval: 60,
 	})
 	if (!test) {
-		await client.close()
+		// await client.close()
 		return
 	}
 
@@ -38,7 +38,7 @@ const runPsarBollinger = async () => {
 
 	const count = await candlesCollection.countDocuments({
 		symbol: test.symbol,
-		startTimeISO: { $gte: new Date("Sat, 01 Jan 2022 00:00:00 GMT") },
+		startTimeISO: { $gte: new Date("Thu, 01 Dec 2022 00:00:00 GMT") },
 	})
 
 	if (count === 0) {
@@ -50,7 +50,7 @@ const runPsarBollinger = async () => {
 	const candleData = candlesCollection
 		.find({
 			symbol: test.symbol,
-			startTimeISO: { $gte: new Date("Sat, 01 Jan 2022 00:00:00 GMT") },
+			startTimeISO: { $gte: new Date("Thu, 01 Dec 2022 00:00:00 GMT") },
 		})
 		.sort({ startTime: 1 })
 
@@ -134,7 +134,7 @@ const runPsarBollinger = async () => {
 		token,
 		test
 	)
-	await client.close()
+	// await client.close()
 }
 
 function buy(candle) {
@@ -142,9 +142,7 @@ function buy(candle) {
 }
 
 function sell(candle) {
-	if (candle.open > candle.bollinger_upper && candle.psar > candle.high)
-		return true
-	return false
+	return candle.open > candle.bollinger_upper && candle.psar > candle.high
 }
 
 function printBalance(usdt, token) {
@@ -162,7 +160,7 @@ async function writeResults(
 	token_balance,
 	testSettings
 ) {
-	const resultsCollection = db.collection("results")
+	const resultsCollection = db.collection("results_short")
 	await resultsCollection.insertOne({
 		symbol,
 		interval,

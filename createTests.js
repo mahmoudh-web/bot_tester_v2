@@ -76,7 +76,7 @@ const createTests = async () => {
 		})
 	})
 
-	const testsCollection = db.collection("tests")
+	const testsCollection = db.collection("test_short")
 	const insertTests = await testsCollection.insertMany(tests)
 	console.log(`${insertTests.insertedCount} tests uploaded to db`)
 	await disconnect(client)
