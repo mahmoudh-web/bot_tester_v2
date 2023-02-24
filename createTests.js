@@ -6,7 +6,7 @@ const createTests = async () => {
 	const { client, db } = database()
 
 	await connect(client)
-	const testsCount = await db.collection("tests").countDocuments()
+	const testsCount = await db.collection("test_short").countDocuments()
 
 	if (testsCount > 0) {
 		console.log("Tests found in db")
